@@ -202,7 +202,8 @@
           opportunities and collaborations. Whether you have a question or just want to say hi, feel free to reach out
           to me. I'm always happy to connect!</p>
         <form class="contact-form" data-aos="fade-up" data-aos-delay="200" id="contactForm"
-          action="https://formspree.io/f/mjgkgkoo" method="POST">
+          action="https://formspree.io/f/mjgkgkoo" method="POST" onsubmit="handleSubmit(event)">
+
           <div class="form-group">
             <input type="text" id="name" name="name" placeholder=" " required>
             <label for="name">Your Name</label>
@@ -601,6 +602,33 @@
       App.init();
     });
   </script>
+
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const data = new FormData(form);
+
+      fetch(form.action, {
+        method: form.method,
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+          alert("Message sent successfully! ✅");
+          form.reset();
+        } else {
+          alert("Something went wrong ❌");
+        }
+      }).catch(() => {
+        alert("Network error ❌");
+      });
+    }
+  </script>
+
 
 </body>
 
