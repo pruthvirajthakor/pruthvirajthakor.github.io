@@ -969,48 +969,152 @@
       background: linear-gradient(90deg, transparent, var(--border), transparent);
       margin: 0;
     }
-    
- @media (max-width: 768px) {
-      section { padding: 5rem 1.5rem; }
 
-      #navbar { padding: 1.2rem 1.5rem; }
-      #navbar.scrolled { padding: 0.9rem 1.5rem; }
-      .nav-links { display: none; }
+    /* ── HAMBURGER BUTTON ───────────────────────────────────────────────────── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      padding: 6px;
+      z-index: 200;
+      flex-shrink: 0;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 20px;
+      height: 1.5px;
+      background: var(--cyan);
+      transition: transform 0.3s, opacity 0.3s;
+      transform-origin: center;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ── RESPONSIVE BREAKPOINTS ─────────────────────────────────────────────── */
+
+    /* Tablet — ≤ 1024px */
+    @media (max-width: 1024px) {
+      nav { padding: 1rem 2rem; }
+      section { padding: 5rem 2rem; }
+      #skills-section > div { padding: 0 2rem; }
+
+      .cardswap-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+      }
+      .cardswap-container {
+        width: 100%;
+        max-width: 420px;
+        height: 300px;
+        margin: 0 auto;
+      }
+      .project-info { padding-top: 0; text-align: center; }
+      .project-tags { justify-content: center; }
+
+      .learning-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-grid { gap: 2.5rem; }
+    }
+
+    /* Mobile — ≤ 768px */
+    @media (max-width: 768px) {
+      /* Hide cursor on touch devices */
+      .cursor, .cursor-ring { display: none; }
+      body { cursor: auto; }
+
+      /* NAV */
+      nav { padding: 1rem 1.25rem; }
       .nav-hamburger { display: flex; }
 
-      #hero { padding: 0 1.5rem; }
-
-      .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
-
-      #about { grid-template-columns: 1fr; gap: 3rem; }
-
-      .skills-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-      .skills-grid { grid-template-columns: 1fr 1fr; }
-
-      .projects-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-      .projects-grid { grid-template-columns: 1fr; }
-
-      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
-
-      .footer-inner { flex-direction: column; gap: 1rem; text-align: center; }
-
-      .timeline-event { grid-template-columns: 1fr; }
-      .timeline-event:nth-child(odd) .timeline-event-content,
-      .timeline-event:nth-child(even) .timeline-event-content {
-        grid-column: 1;
-        transform: none;
+      .nav-links {
+        position: fixed;
+        top: 0; right: 0;
+        width: min(75vw, 280px);
+        height: 100dvh;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2rem;
+        background: rgba(2, 4, 8, 0.97);
+        backdrop-filter: blur(24px);
+        border-left: 1px solid var(--border);
+        padding: 2rem 2rem;
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+        z-index: 150;
       }
-      .timeline-dot { display: none; }
-      .timeline-wrap { grid-template-columns: 1fr; }
+      .nav-links.open { transform: translateX(0); }
+      .nav-links a { font-size: 1rem; letter-spacing: 0.15em; }
+
+      /* HERO */
+      .hero-content { padding: 1rem; }
+      .hero-tag { font-size: 0.65rem; }
+      .hero-title { margin-bottom: 2rem; }
+      .scroll-hint { font-size: 0.6rem; }
+
+      /* SECTIONS */
+      section { padding: 4rem 1.25rem; }
+      #skills-section { padding-top: 4rem; padding-bottom: 4rem; }
+      #skills-section > div { padding: 0 1.25rem; }
+
+      /* ABOUT */
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .about-visual { order: -1; }
+      .avatar-ring { width: 200px; height: 200px; }
+      .avatar-inner { font-size: 4rem; }
+      .stat-row { gap: 1.5rem; justify-content: center; }
+      .stat-num { font-size: 2rem; }
+
+      /* SKILLS */
+      .skills-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.75rem; }
+
+      /* PROJECTS — cardswap */
+      .cardswap-wrapper { gap: 1.5rem; }
+      .cardswap-container {
+        width: 100%;
+        max-width: 320px;
+        height: 260px;
+      }
+      .project-info h3 { font-size: 1.4rem; }
+
+      /* FOLDERS */
+      .folders-grid { gap: 2rem; margin-top: 4rem; }
+      .folder-wrapper { gap: 3.5rem; width: 130px; }
+
+      /* LEARNING */
+      .learning-grid { grid-template-columns: 1fr; gap: 1rem; }
+
+      /* CONTACT */
+      .contact-grid { gap: 1rem; }
+      .contact-link { padding: 0.9rem 1.4rem; font-size: 0.75rem; width: 100%; max-width: 320px; justify-content: center; }
+
+      /* FOOTER */
+      footer {
+        flex-direction: column;
+        gap: 0.6rem;
+        text-align: center;
+        padding: 1.5rem 1.25rem;
+      }
     }
 
-    @media (max-width: 480px) {
-      .skills-grid { grid-template-columns: 1fr; }
-      .hero-name { font-size: 3rem; }
+    /* Small phones — ≤ 420px */
+    @media (max-width: 420px) {
+      .hero-cta { padding: 0.7rem 1.4rem; font-size: 0.72rem; }
+      .section-title { font-size: clamp(1.6rem, 7vw, 2.4rem); }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-row { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+      .cardswap-container { height: 240px; }
     }
-    
-
-    
   </style>
 </head>
 
@@ -1028,13 +1132,16 @@
       <span style="color:var(--cyan)">Am5</span>
     </a>
     </div>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills-section">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#learning">Learning</a></li>
-      <li><a href="#contact">Contact</a></li>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" class="nav-close-link">About</a></li>
+      <li><a href="#skills-section" class="nav-close-link">Skills</a></li>
+      <li><a href="#projects" class="nav-close-link">Projects</a></li>
+      <li><a href="#learning" class="nav-close-link">Learning</a></li>
+      <li><a href="#contact" class="nav-close-link">Contact</a></li>
     </ul>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
   <!-- HERO -->
@@ -1502,6 +1609,38 @@
       const nav = document.querySelector('nav');
       nav.style.background = window.scrollY > 50 ? 'rgba(2,4,8,0.92)' : 'rgba(2,4,8,0.6)';
     });
+
+    // ── HAMBURGER MENU ───────────────────────────────────────────────────────────
+    const hamburger = document.getElementById('navHamburger');
+    const navLinks  = document.getElementById('navLinks');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+
+    // Close menu when a nav link is tapped
+    document.querySelectorAll('.nav-close-link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // Close menu on outside tap
+    document.addEventListener('click', e => {
+      if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+      }
+    });
+
+    // ── DISABLE CUSTOM CURSOR ON TOUCH DEVICES ───────────────────────────────────
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      document.getElementById('cursor').style.display    = 'none';
+      document.getElementById('cursorRing').style.display = 'none';
+      document.body.style.cursor = 'auto';
+    }
   </script>
 </body>
 
