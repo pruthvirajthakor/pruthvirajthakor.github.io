@@ -694,7 +694,7 @@
 
     .folder-front .folder-label {
       font-family: 'Space Mono', monospace;
-      font-size: ;
+      font-size: 0.65rem;
       color: rgba(6, 6, 6, 0.85);
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -729,7 +729,7 @@
     }
 
     .folder-front-right {
-      right: ;
+      right: 0;
       clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     }
 
@@ -817,6 +817,8 @@
       transition: all 0.3s;
       position: relative;
       overflow: hidden;
+      isolation: isolate;
+      /* creates stacking context so ::before stays behind content */
     }
 
     .contact-link::before {
@@ -826,11 +828,14 @@
       background: var(--green);
       opacity: 0;
       transition: opacity 0.3s;
+      z-index: -1;
+      /* behind link text & svg */
     }
 
     .contact-link:hover {
       border-color: var(--green);
-      
+      color: var(--bg);
+      /* invert text so it's readable over green bg */
     }
 
     .contact-link:hover::before {
@@ -839,6 +844,12 @@
 
     .contact-link svg {
       flex-shrink: 0;
+    }
+
+    /* nav logo link */
+    .nav-logo a {
+      text-decoration: none;
+      color: inherit;
     }
 
     /* FOOTER */
@@ -986,6 +997,7 @@
       z-index: 200;
       flex-shrink: 0;
     }
+
     .nav-hamburger span {
       display: block;
       width: 20px;
@@ -994,49 +1006,93 @@
       transition: transform 0.3s, opacity 0.3s;
       transform-origin: center;
     }
-    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .nav-hamburger.open span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+
+    .nav-hamburger.open span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .nav-hamburger.open span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
 
     /* ── RESPONSIVE BREAKPOINTS ─────────────────────────────────────────────── */
 
     /* Tablet — ≤ 1024px */
     @media (max-width: 1024px) {
-      nav { padding: 1rem 2rem; }
-      section { padding: 5rem 2rem; }
-      #skills-section > div { padding: 0 2rem; }
+      nav {
+        padding: 1rem 2rem;
+      }
+
+      section {
+        padding: 5rem 2rem;
+      }
+
+      #skills-section>div {
+        padding: 0 2rem;
+      }
 
       .cardswap-wrapper {
         flex-direction: column;
         align-items: center;
         gap: 2rem;
       }
+
       .cardswap-container {
         width: 100%;
         max-width: 420px;
         height: 300px;
         margin: 0 auto;
       }
-      .project-info { padding-top: 0; text-align: center; }
-      .project-tags { justify-content: center; }
 
-      .learning-grid { grid-template-columns: repeat(2, 1fr); }
-      .about-grid { gap: 2.5rem; }
+      .project-info {
+        padding-top: 0;
+        text-align: center;
+      }
+
+      .project-tags {
+        justify-content: center;
+      }
+
+      .learning-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .about-grid {
+        gap: 2.5rem;
+      }
     }
 
     /* Mobile — ≤ 768px */
     @media (max-width: 768px) {
+
       /* Hide cursor on touch devices */
-      .cursor, .cursor-ring { display: none; }
-      body { cursor: auto; }
+      .cursor,
+      .cursor-ring {
+        display: none;
+      }
+
+      body {
+        cursor: auto;
+      }
 
       /* NAV */
-      nav { padding: 1rem 1.25rem; }
-      .nav-hamburger { display: flex; }
+      nav {
+        padding: 1rem 1.25rem;
+      }
+
+      .nav-hamburger {
+        display: flex;
+      }
 
       .nav-links {
         position: fixed;
-        top: 0; right: 0;
+        top: 0;
+        right: 0;
         width: min(75vw, 280px);
         height: 100dvh;
         flex-direction: column;
@@ -1047,56 +1103,136 @@
         border-left: 1px solid var(--border);
         padding: 2rem 2rem;
         transform: translateX(100%);
-        transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 150;
       }
-      .nav-links.open { transform: translateX(0); }
-      .nav-links a { font-size: 1rem; letter-spacing: 0.15em; }
+
+      .nav-links.open {
+        transform: translateX(0);
+      }
+
+      .nav-links a {
+        font-size: 1rem;
+        letter-spacing: 0.15em;
+      }
 
       /* HERO */
-      .hero-content { padding: 1rem; }
-      .hero-tag { font-size: 0.65rem; }
-      .hero-title { margin-bottom: 2rem; }
-      .scroll-hint { font-size: 0.6rem; }
+      .hero-content {
+        padding: 1rem;
+      }
+
+      .hero-tag {
+        font-size: 0.65rem;
+      }
+
+      .hero-title {
+        margin-bottom: 2rem;
+      }
+
+      .scroll-hint {
+        font-size: 0.6rem;
+      }
 
       /* SECTIONS */
-      section { padding: 4rem 1.25rem; }
-      #skills-section { padding-top: 4rem; padding-bottom: 4rem; }
-      #skills-section > div { padding: 0 1.25rem; }
+      section {
+        padding: 4rem 1.25rem;
+      }
+
+      #skills-section {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+      }
+
+      #skills-section>div {
+        padding: 0 1.25rem;
+      }
 
       /* ABOUT */
       .about-grid {
         grid-template-columns: 1fr;
         gap: 2.5rem;
       }
-      .about-visual { order: -1; }
-      .avatar-ring { width: 200px; height: 200px; }
-      .avatar-inner { font-size: 4rem; }
-      .stat-row { gap: 1.5rem; justify-content: center; }
-      .stat-num { font-size: 2rem; }
+
+      .about-visual {
+        order: -1;
+      }
+
+      .avatar-ring {
+        width: 200px;
+        height: 200px;
+      }
+
+      .avatar-inner {
+        font-size: 4rem;
+      }
+
+      .stat-row {
+        gap: 1.5rem;
+        justify-content: center;
+      }
+
+      .stat-num {
+        font-size: 2rem;
+      }
 
       /* SKILLS */
-      .skills-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.75rem; }
+      .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 0.75rem;
+      }
 
       /* PROJECTS — cardswap */
-      .cardswap-wrapper { gap: 1.5rem; }
+      .cardswap-wrapper {
+        gap: 1.5rem;
+      }
+
       .cardswap-container {
         width: 100%;
         max-width: 320px;
         height: 260px;
+        overflow: hidden;
+        /* clip cards that spill outside on small screens */
       }
-      .project-info h3 { font-size: 1.4rem; }
+
+      /* Re-centre the GSAP card anchor so cards sit inside the smaller container */
+      .gsap-card {
+        left: 50%;
+        top: 50%;
+      }
+
+      .project-info h3 {
+        font-size: 1.4rem;
+      }
 
       /* FOLDERS */
-      .folders-grid { gap: 2rem; margin-top: 4rem; }
-      .folder-wrapper { gap: 3.5rem; width: 130px; }
+      .folders-grid {
+        gap: 2rem;
+        margin-top: 4rem;
+      }
+
+      .folder-wrapper {
+        gap: 3.5rem;
+        width: 130px;
+      }
 
       /* LEARNING */
-      .learning-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .learning-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
 
       /* CONTACT */
-      .contact-grid { gap: 1rem; }
-      .contact-link { padding: 0.9rem 1.4rem; font-size: 0.75rem; width: 100%; max-width: 320px; justify-content: center; }
+      .contact-grid {
+        gap: 1rem;
+      }
+
+      .contact-link {
+        padding: 0.9rem 1.4rem;
+        font-size: 0.75rem;
+        width: 100%;
+        max-width: 320px;
+        justify-content: center;
+      }
 
       /* FOOTER */
       footer {
@@ -1109,11 +1245,28 @@
 
     /* Small phones — ≤ 420px */
     @media (max-width: 420px) {
-      .hero-cta { padding: 0.7rem 1.4rem; font-size: 0.72rem; }
-      .section-title { font-size: clamp(1.6rem, 7vw, 2.4rem); }
-      .skills-grid { grid-template-columns: repeat(2, 1fr); }
-      .stat-row { flex-wrap: wrap; justify-content: center; gap: 1rem; }
-      .cardswap-container { height: 240px; }
+      .hero-cta {
+        padding: 0.7rem 1.4rem;
+        font-size: 0.72rem;
+      }
+
+      .section-title {
+        font-size: clamp(1.6rem, 7vw, 2.4rem);
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat-row {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .cardswap-container {
+        height: 240px;
+      }
     }
   </style>
 </head>
@@ -1128,9 +1281,9 @@
   <nav>
     <div class="nav-logo">
       <a href="https://pruthvirajthakor.github.io/Am5/">
-      
-      <span style="color:var(--cyan)">Am5</span>
-    </a>
+
+        <span style="color:var(--cyan)">Am5</span>
+      </a>
     </div>
     <ul class="nav-links" id="navLinks">
       <li><a href="#about" class="nav-close-link">About</a></li>
@@ -1612,7 +1765,7 @@
 
     // ── HAMBURGER MENU ───────────────────────────────────────────────────────────
     const hamburger = document.getElementById('navHamburger');
-    const navLinks  = document.getElementById('navLinks');
+    const navLinks = document.getElementById('navLinks');
 
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('open');
@@ -1637,7 +1790,7 @@
 
     // ── DISABLE CUSTOM CURSOR ON TOUCH DEVICES ───────────────────────────────────
     if (window.matchMedia('(pointer: coarse)').matches) {
-      document.getElementById('cursor').style.display    = 'none';
+      document.getElementById('cursor').style.display = 'none';
       document.getElementById('cursorRing').style.display = 'none';
       document.body.style.cursor = 'auto';
     }
